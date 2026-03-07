@@ -1,11 +1,69 @@
 const campo = document.querySelector("#campo");
 
+const totalBombas = 25;
+let quantidadeDeBombas = 0;
+let bombasSorteadas = [];
 let quadrados = [];
+let bombas = [[]];
 let id = 0;
 
+function verificarBombasEmVolta() {
+    // percorrendo todas as posições
+    for (let linha = 0; linha < 9; linha++) {
+        for (let coluna = 0; coluna < 9; coluna++) {
+
+            // vendo se é uma bomba
+            if (bombas[linha][coluna] == 1) {
+                return; // encerra a verificação
+            }
+
+            let contador = 0;
+
+            // percorre os 8 quadrados em volta
+            for (let i = -1; i <= 1; i++) {
+                /* 
+                para colunas: 
+                -1 = cima
+                 0 = centro
+                -1 = baixo
+                */
+                for (let j = -1; j <= 1; j++) {
+                    /* 
+                    para linhas: 
+                    -1 = esquerda   0 = meio    -1 = direita
+                    */
+
+                    // Pega a sua linha atual e soma o passo
+                    let novaLinha = linha + i;
+                    //Pega a sua coluna atual e soma o passo
+                    let novaColuna = coluna + j;
+
+                    // vendo se os quadrados em volta estão dentro do campo
+                    if (novaLinha >= 0 && // não pode estar fora(cima)
+                        novaLinha < 9 && // não pode estar fora(baixo)
+                        novaColuna >= 0 && // não pode estar fora(esquerda)
+                        novaColuna < 9) { // não pode estar fora(direita)
+
+                        // adicionando contagem caso tenha bomba no espaço válido
+                        if (bombas[novaLinha][novaColuna] === 1) {
+                            contador++;
+                        }
+                    }
+
+                }
+            }
+
+            if (true) {
+
+            }
+
+        }
+    }
+}
+
 // cria os elementos na tela
-for (let i = 0; i < 10; i++) {
-    for (let j = 0; j < 10; j++) {
+for (let linha = 0; linha < 10; linha++) {
+    for (let coluna = 0; coluna < 10; coluna++) {
         const elemento = document.createElement("div");
         elemento.setAttribute("class", "item");
         if (id < 10) {
@@ -13,17 +71,14 @@ for (let i = 0; i < 10; i++) {
         } else {
             elemento.setAttribute("id", "item" + id);
         }
-        elemento.setAttribute("onclick", "clique(" + i + "," + j + ")");
+        elemento.setAttribute("onclick", "clique(" + linha + "," + coluna + ")");
         campo.appendChild(elemento);
         quadrados.push(elemento);
         id++;
     }
 }
 
-const totalBombas = 25;
-let quantidadeDeBombas = 0;
-let bombasSorteadas = [];
-let bombas = [[]];
+
 
 // cria miniatura do campo
 console.log(bombas)
@@ -38,10 +93,13 @@ criarMatrizVazia();
 function sortearBombas() {
     while (quantidadeDeBombas < totalBombas) {
 
+        // sorteando linha e coluna
         let linhaBomba = Math.floor(Math.random() * 9);
         let colunaBomba = Math.floor(Math.random() * 9);
 
+        // verifica se já tem uma bomba
         if (bombas[linhaBomba][colunaBomba] == 0) {
+            //se não tiver coloca uma
             bombas[linhaBomba][colunaBomba] = 1;
 
             quantidadeDeBombas++;
@@ -56,13 +114,16 @@ console.log(bombasSorteadas);
 sortearBombas();
 
 // verifica se o elemento clicado é bomba ou não
-function clique(i, j) {
+function clique(linha, coluna) {
     // Linha 0, Coluna 5: (0 x 10) + 5 = 5
     // Linha 2, Coluna 3: (2 x 10) + 3 = 23
-    const numeroElemento = (i * 10) + j;
+    const numeroElemento = (linha * 10) + coluna;
     const elemento = campo.children[numeroElemento];
-    console.log(i + ", " + j);
-    if (bombas[i][j] == 1) {
+
+    console.log(linha + ", " + coluna);
+
+    // se tiver uma bomba na posição...
+    if (bombas[linha][coluna] == 1) {
         elemento.classList.add('explodido');
         alert("BOOM");
         elemento.classList.add('desativado');
