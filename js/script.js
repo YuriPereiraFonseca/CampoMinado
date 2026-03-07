@@ -8,11 +8,15 @@ for (let i = 0; i < 10; i++) {
     for (let j = 0; j < 10; j++) {
         const elemento = document.createElement("div");
         elemento.setAttribute("class", "item");
-        elemento.setAttribute("id", "item" + id);
+        if (id < 10) {
+            elemento.setAttribute("id", "item0" + id);
+        } else {
+            elemento.setAttribute("id", "item" + id);
+        }
         elemento.setAttribute("onclick", "clique(" + i + "," + j + ")");
         campo.appendChild(elemento);
         quadrados.push(elemento);
-        id++
+        id++;
     }
 }
 
@@ -28,7 +32,7 @@ function criarMatrizVazia() {
         bombas[i] = new Array(10).fill(0);
     }
 }
-criarMatrizVazia()
+criarMatrizVazia();
 
 // verifica se a posição aleatória já tem uma bomba ou não
 function sortearBombas() {
@@ -38,24 +42,33 @@ function sortearBombas() {
         let colunaBomba = Math.floor(Math.random() * 9);
 
         if (bombas[linhaBomba][colunaBomba] == 0) {
-            bombas[linhaBomba][colunaBomba] = 1
+            bombas[linhaBomba][colunaBomba] = 1;
+
+            quantidadeDeBombas++;
+            bombasSorteadas.push(linhaBomba + "" + colunaBomba);
         }
-        quantidadeDeBombas++;
-        bombasSorteadas.push(linhaBomba + "" + colunaBomba)
-        // organizando bombas em ordem crescente
-        bombasSorteadas.sort((a, b) => a - b);
     }
+    // organizando bombas em ordem crescente
+    bombasSorteadas.sort((a, b) => a - b);
 }
-console.log("Bombas:")
-console.log(bombasSorteadas)
+console.log("Bombas:");
+console.log(bombasSorteadas);
 sortearBombas();
+
+
 
 // verifica se o elemento clicado é bomba ou não
 function clique(i, j) {
-    console.log(i + ", " + j)
+    // Linha 0, Coluna 5: (0 x 10) + 5 = 5
+    // Linha 2, Coluna 3: (2 x 10) + 3 = 23
+    const numeroElemento = (i * 10) + j;
+    const elemento = campo.children[numeroElemento];
+    console.log(i + ", " + j);
     if (bombas[i][j] == 1) {
-        alert("BOOM")
+        alert("BOOM");
+        elemento.classList.add('explodido');
     } else {
-        alert("Seguro")
+        alert("Seguro");
+        elemento.classList.add('seguro');
     }
 }

@@ -54,3 +54,18 @@
     color: rgb(215, 231, 0);
     font-size: 40px;
 }
+
+.explodido {
+    background-color: red !important;
+}
+
+.seguro {
+    opacity: 0 !important;
+}
+
+.desativado {
+    pointer-events: none;
+    /* Impede novos cliques */
+    cursor: default;
+    /* Remove a mãozinha do mouse */
+}
