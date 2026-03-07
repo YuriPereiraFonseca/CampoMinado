@@ -67,8 +67,10 @@ function clique(i, j) {
     if (bombas[i][j] == 1) {
         alert("BOOM");
         elemento.classList.add('explodido');
+        elemento.classList.add('desativado');
     } else {
         alert("Seguro");
         elemento.classList.add('seguro');
+        elemento.classList.add('desativado');
     }
 }
