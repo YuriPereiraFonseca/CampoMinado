@@ -55,8 +55,6 @@ console.log("Bombas:");
 console.log(bombasSorteadas);
 sortearBombas();
 
-
-
 // verifica se o elemento clicado é bomba ou não
 function clique(i, j) {
     // Linha 0, Coluna 5: (0 x 10) + 5 = 5
@@ -65,9 +63,13 @@ function clique(i, j) {
     const elemento = campo.children[numeroElemento];
     console.log(i + ", " + j);
     if (bombas[i][j] == 1) {
-        alert("BOOM");
         elemento.classList.add('explodido');
+        alert("BOOM");
         elemento.classList.add('desativado');
+        setTimeout(() => {
+            alert("Game Over");
+            location.reload();
+        }, 100);
     } else {
         alert("Seguro");
         elemento.classList.add('seguro');
