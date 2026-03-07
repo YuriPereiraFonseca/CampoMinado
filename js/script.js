@@ -1,34 +1,59 @@
 const campo = document.querySelector("#campo");
 
 let quadrados = [];
-for (let i = 0; i < 100; i++) {
-    const elemento = document.createElement("div");
-    elemento.setAttribute("class", "item");
-    elemento.setAttribute("id", "item" + i);
-    elemento.setAttribute("onclick", "clique(" + i + ")");
-    campo.appendChild(elemento);
-    quadrados.push(elemento);
+let id = 0;
 
-}
-let bombas = [];
-function sortearBombas() {
-    while (bombas.length <= 24) {
-        let bomba = Math.floor(Math.random() * (100 - 0));
-        if (!bombas.includes(bomba)) {
-            bombas.push(bomba);
-        }
+// cria os elementos na tela
+for (let i = 0; i < 10; i++) {
+    for (let j = 0; j < 10; j++) {
+        const elemento = document.createElement("div");
+        elemento.setAttribute("class", "item");
+        elemento.setAttribute("id", "item" + id);
+        elemento.setAttribute("onclick", "clique(" + i + "," + j + ")");
+        campo.appendChild(elemento);
+        quadrados.push(elemento);
+        id++
     }
-    // organizando em ordem crescente
-    bombas.sort((a, b) => a - b);
 }
 
+const totalBombas = 25;
+let quantidadeDeBombas = 0;
+let bombasSorteadas = [];
+let bombas = [[]];
 
+// cria miniatura do campo
+console.log(bombas)
+function criarMatrizVazia() {
+    for (let i = 0; i < 10; i++) {
+        bombas[i] = new Array(10).fill(0);
+    }
+}
+criarMatrizVazia()
+
+// verifica se a posição aleatória já tem uma bomba ou não
+function sortearBombas() {
+    while (quantidadeDeBombas < totalBombas) {
+
+        let linhaBomba = Math.floor(Math.random() * 9);
+        let colunaBomba = Math.floor(Math.random() * 9);
+
+        if (bombas[linhaBomba][colunaBomba] == 0) {
+            bombas[linhaBomba][colunaBomba] = 1
+        }
+        quantidadeDeBombas++;
+        bombasSorteadas.push(linhaBomba + "" + colunaBomba)
+        // organizando bombas em ordem crescente
+        bombasSorteadas.sort((a, b) => a - b);
+    }
+}
+console.log("Bombas:")
+console.log(bombasSorteadas)
 sortearBombas();
 
-console.log(bombas)
-
-function clique(i) {
-    if (bombas.includes(i)) {
+// verifica se o elemento clicado é bomba ou não
+function clique(i, j) {
+    console.log(i + ", " + j)
+    if (bombas[i][j] == 1) {
         alert("BOOM")
     } else {
         alert("Seguro")
