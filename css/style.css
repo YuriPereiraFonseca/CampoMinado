@@ -23,19 +23,35 @@
     display: flex;
     margin: 0 auto;
     margin-top: 10px;
-    background-color: rgb(164, 177, 177);
+    background-color: rgb(202, 207, 207);
     color: aqua;
     width: 660px;
     height: 660px;
 }
 
 .item {
-    margin: 5px;
-    padding: 5px;
+    box-sizing: border-box;
+    /* Fundamental: impede que padding aumente o tamanho */
+    margin: 3px;
+    /* Diminuí um pouco para caber melhor 10 em linha */
+
+    /* Cálculo preciso: 10% da largura menos as margens */
+    width: calc(10% - 6px);
+    height: calc(10% - 6px);
+
     background-color: #447;
-    text-align: center;
-    font-size: 1em;
-    width: calc(10% - 20px);
+
+    /* Centraliza o número perfeitamente sem afetar o tamanho */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-weight: bold;
+    font-size: 2.5em;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    cursor: pointer;
+    user-select: none;
+    /* Impede o usuário de "selecionar" o texto ao clicar rápido */
 }
 
 .horizontal {
@@ -60,7 +76,7 @@
 }
 
 .seguro {
-    opacity: 0 !important;
+    background-color: rgb(176, 185, 185) !important;
 }
 
 .desativado {
@@ -68,4 +84,37 @@
     /* Impede novos cliques */
     cursor: default;
     /* Remove a mãozinha do mouse */
+}
+
+.cor1 {
+    color: rgb(0, 68, 255);
+}
+
+.cor2 {
+    color: rgb(35, 138, 15);
+}
+
+.cor3 {
+    color: rgb(255, 0, 0);
+}
+
+.cor4 {
+    color: rgb(5, 8, 151);
+}
+
+.cor5 {
+    color: rgb(170, 4, 4);
+}
+
+
+.cor6 {
+    color: rgb(83, 10, 219);
+}
+
+.cor7 {
+    color: rgb(76, 2, 110);
+}
+
+.cor8 {
+    color: rgb(0, 0, 0);
 }

@@ -7,54 +7,75 @@ let quadrados = [];
 let bombas = [[]];
 let id = 0;
 
-function verificarBombasEmVolta() {
-    // percorrendo todas as posições
-    for (let linha = 0; linha < 9; linha++) {
-        for (let coluna = 0; coluna < 9; coluna++) {
+function verificarBombasEmVolta(linha, coluna) {
 
-            // vendo se é uma bomba
-            if (bombas[linha][coluna] == 1) {
-                return; // encerra a verificação
-            }
+    // vendo se é uma bomba
+    if (bombas[linha][coluna] == 1) {
+        return; // encerra a verificação
+    }
 
-            let contador = 0;
+    let contador = 0;
 
-            // percorre os 8 quadrados em volta
-            for (let i = -1; i <= 1; i++) {
-                /* 
-                para colunas: 
-                -1 = cima
-                 0 = centro
-                -1 = baixo
-                */
-                for (let j = -1; j <= 1; j++) {
-                    /* 
-                    para linhas: 
-                    -1 = esquerda   0 = meio    -1 = direita
-                    */
+    // percorre os 8 quadrados em volta
+    for (let i = -1; i <= 1; i++) {
+        /* 
+        para linhas: 
+        -1 = esquerda   0 = meio    -1 = direita
+        */
 
-                    // Pega a sua linha atual e soma o passo
-                    let novaLinha = linha + i;
-                    //Pega a sua coluna atual e soma o passo
-                    let novaColuna = coluna + j;
+        for (let j = -1; j <= 1; j++) {
+            /* 
+            para colunas: 
+            -1 = cima
+            0 = centro
+            -1 = baixo
+            */
 
-                    // vendo se os quadrados em volta estão dentro do campo
-                    if (novaLinha >= 0 && // não pode estar fora(cima)
-                        novaLinha < 9 && // não pode estar fora(baixo)
-                        novaColuna >= 0 && // não pode estar fora(esquerda)
-                        novaColuna < 9) { // não pode estar fora(direita)
+            // Pega a sua linha atual e soma o passo
+            let novaLinha = linha + i;
+            //Pega a sua coluna atual e soma o passo
+            let novaColuna = coluna + j;
 
-                        // adicionando contagem caso tenha bomba no espaço válido
-                        if (bombas[novaLinha][novaColuna] === 1) {
-                            contador++;
-                        }
-                    }
+            // vendo se os quadrados em volta estão dentro do campo
+            if (novaLinha >= 0 && // não pode estar fora(cima)
+                novaLinha < 9 && // não pode estar fora(baixo)
+                novaColuna >= 0 && // não pode estar fora(esquerda)
+                novaColuna < 9) { // não pode estar fora(direita)
 
+                // adicionando contagem caso tenha bomba no espaço válido
+                if (bombas[novaLinha][novaColuna] == 1) {
+                    contador++;
                 }
             }
 
-            if (true) {
+        }
+    }
 
+    if (contador > 0) {
+        // Exemplo: selecionando a div pela ID ou coordenada
+        let quadrado = document.getElementById("item" + linha + coluna);
+        quadrado.innerText = contador;
+        // Adiciona uma classe de cor baseada no número (opcional)
+        quadrado.classList.add("cor" + contador);
+    }
+}
+
+function verificarEspacosEmVolta(linha, coluna) {
+
+    if (bombas[linha][coluna] == 1) { return; }
+    for (let i = -1; i <= 1; i++) {
+        for (let j = -1; j <= 1; j++) {
+            let novaLinha = linha + i;
+            let novaColuna = coluna + j;
+
+            if (novaLinha >= 0 && // não pode estar fora(cima)
+                novaLinha < 9 && // não pode estar fora(baixo)
+                novaColuna >= 0 && // não pode estar fora(esquerda)
+                novaColuna < 9) { // não pode estar fora(direita)
+
+                if (bombas[novaLinha][novaColuna] == 0) {
+
+                }
             }
 
         }
@@ -115,6 +136,7 @@ sortearBombas();
 
 // verifica se o elemento clicado é bomba ou não
 function clique(linha, coluna) {
+
     // Linha 0, Coluna 5: (0 x 10) + 5 = 5
     // Linha 2, Coluna 3: (2 x 10) + 3 = 23
     const numeroElemento = (linha * 10) + coluna;
@@ -136,4 +158,5 @@ function clique(linha, coluna) {
         elemento.classList.add('seguro');
         elemento.classList.add('desativado');
     }
+    verificarBombasEmVolta(linha, coluna);
 }
